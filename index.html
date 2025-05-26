@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MCP Server Debug Tool</title>
+    <style>
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        /* 顶部连接面板布局 */
+        .top-panel { 
+            display: flex; 
+            gap: 20px; 
+            margin-bottom: 20px; 
+        }
+        
+        .connection-panel { 
+            background: #f5f5f5; 
+            padding: 15px; 
+            flex: 0 0 45%; /* 固定宽度为45% */
+        }
+        
+        .tools-tags-panel { 
+            background: #f9f9f9; 
+            padding: 15px; 
+            flex: 1; 
+            border: 1px solid #ddd;
+        }
+        
+        .tool-tag {
+            display: inline-block;
+            background: #e0e0e0;
+            color: #333;
+            padding: 6px 12px;
+            margin: 3px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            border: 1px solid #ccc;
+        }
+        
+        .tool-tag:hover {
+            background: #d0d0d0;
+        }
+        
+        .tool-tag.selected {
+            background: #007acc;
+            color: white;
+            border-color: #005a9e;
+        }
+        
+        /* 底部主要内容布局 */
+        .main-panel { 
+            display: flex; 
+            gap: 20px; 
+        }
+        
+        .tool-details-panel { 
+            flex: 0 0 45%; 
+        }
+        
+        .execution-panel { 
+            flex: 1; 
+        }
+        
+        /* 原有样式保持 */
+        .param-input { width: 100%; margin: 5px 0; padding: 8px; }
+        .result-output { 
+            background: #f8f8f8; 
+            padding: 15px; 
+            font-family: 'Courier New', monospace; 
+            white-space: pre-wrap; 
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-height: 400px;
+            overflow-y: auto;
+            line-height: 1.4;
+        }
+        
+        .param-group {
+            margin: 10px 0;
+        }
+        
+        .param-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .param-group small {
+            display: block;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 2px;
+        }
+        
+        .button-group {
+            margin: 15px 0;
+        }
+        
+        .execute-btn, .clear-btn {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+        
+        .clear-btn {
+            background: #666;
+        }
+        
+        .execute-btn:hover {
+            background: #005a9e;
+        }
+        
+        .clear-btn:hover {
+            background: #555;
+        }
+        
+        .params-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background: #fafafa;
+            border-radius: 4px;
+        }
+        
+        .tool-help {
+            font-size: 0.9em;
+            margin-top: 15px; 
+            padding: 10px; 
+            background: #f0f7ff; 
+            border-left: 4px solid #2196F3;
+            border-radius: 4px;
+        }
+        
+        .tool-help ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+        
+        .tool-help li {
+            margin: 2px 0;
+        }
+        
+        /* 调试工具样式 */
+        .debug-panel {
+            margin: 20px 0; 
+            padding: 10px; 
+            background: #ffe6e6; 
+            border: 1px solid #ffcccc;
+            border-radius: 4px;
+        }
+        
+        .debug-panel button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            background: #666;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .debug-panel button:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MCP Server Debug Tool</h1>
+        
+        <!-- 顶部面板：连接配置 + 工具标签 -->
+        <div class="top-panel">
+            <!-- 连接配置面板 -->
+            <div class="connection-panel">
+                <h3>Server Connection</h3>
+                
+                <div>
+                    <label>Transport Type:</label>
+                    <select id="transportType">
+                        <option value="websocket">WebSocket</option>
+                        <option value="http">HTTP</option>
+                        <option value="stdio" selected>Stdio (via proxy)</option>
+                    </select>
+                </div>
+                
+                <div id="urlInput">
+                    <label>Server URL:</label>
+                    <input type="text" id="serverUrl" placeholder="Server URL" />
+                </div>
+                
+                <!-- MCP配置输入 -->
+                <div id="mcpConfigInput" style="display: none;">
+                    <label>MCP Server Config:</label>
+                    <textarea id="mcpConfig" style="width:100%;height:120px;">{
+            "command": "C:\\Windows\\System32\\cmd.exe",
+            "args": [
+              "/c",
+              "npx",
+              "-y",
+              "@modelcontextprotocol/server-filesystem",
+              "C:/A2A/MCP/mcp-debug-client/test-folder"
+            ]
+          }</textarea>
+                </div>
+                
+                <div style="margin-top: 10px;">
+                    <button onclick="connectServer()">Connect</button>
+                    <button onclick="disconnectServer()" style="margin-left: 10px;">Disconnect</button>
+                    <span id="connectionStatus">Disconnected</span>
+                </div>
+            </div>
+            
+            <!-- 工具标签面板 -->
+            <div class="tools-tags-panel">
+                <h3>Available Tools</h3>
+                <div id="toolsTagsContainer">
+                    <p style="color: #666;">Connect to server to see available tools</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部主要内容面板 -->
+        <div class="main-panel">
+            <!-- 工具详情面板 -->
+            <div class="tool-details-panel">
+                <h3>Tool Details</h3>
+                <div id="toolDetails">
+                    <p>Select a tool to see details</p>
+                </div>
+            </div>
+            
+            <!-- 执行结果面板 -->
+            <div class="execution-panel">
+                <h3>Execution Result</h3>
+                <div id="resultOutput" class="result-output">
+                    Execute a tool to see results
+                </div>
+            </div>
+        </div>
+
+        <!-- 调试工具面板 -->
+        <div class="debug-panel">
+            <h4>调试工具</h4>
+            <button onclick="testConnection()">测试连接</button>
+            <button onclick="showConnectionInfo()">显示连接信息</button>
+            <button onclick="console.clear()">清除控制台</button>
+            <button onclick="exportLogs()">导出日志</button>
+            <button onclick="checkInitialization()">检查初始化</button>
+        </div>
+    </div>
+
+    <script>
+    // 只保留传输类型切换逻辑
+    document.getElementById('transportType').addEventListener('change', function() {
+        const type = this.value;
+        const urlInput = document.getElementById('urlInput');
+        const configInput = document.getElementById('mcpConfigInput');
+        
+        if (type === 'stdio') {
+            urlInput.style.display = 'none';
+            configInput.style.display = 'block';
+            var mcpConfigElem = document.getElementById('mcpConfig');
+            if (mcpConfigElem) {
+                mcpConfigElem.value = JSON.stringify({
+                    "command": "C:\\Windows\\System32\\cmd.exe",
+                    "args": [
+                      "/c",
+                      "npx",
+                      "-y",
+                      "@modelcontextprotocol/server-filesystem",
+                      "C:/A2A/MCP/mcp-debug-client/test-folder"
+                    ]
+                  }, null, 2);
+            }
+        } else {
+            urlInput.style.display = 'block';
+            configInput.style.display = 'none';
+        }
+    });
+
+    // 页面加载时自动触发一次切换逻辑
+    window.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('transportType').dispatchEvent(new Event('change'));
+    });
+    </script>
+
+    <!-- 加载MCP相关脚本 -->
+    <script src="src/core/mcp-client.js"></script>
+    <script src="src/transport/stdio-transport.js"></script>
+    <script src="src/debugger/tool-debugger.js"></script>
+    <script src="src/app.js"></script>
+    
+    <!-- 
+    注意：所有的函数现在都定义在各自的JS文件中：
+    - connectServer(), disconnectServer() 在 src/app.js
+    - testConnection(), showConnectionInfo(), exportLogs(), checkInitialization() 在 src/app.js
+    - toolDebugger.executeTool(), toolDebugger.clearParams() 在 src/debugger/tool-debugger.js
+    -->
+</body>
+</html>
