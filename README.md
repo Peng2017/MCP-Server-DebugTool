@@ -1,6 +1,6 @@
 # MCP Server Debug Tool
 
-一个基于浏览器的 MCP (Model Context Protocol) 服务器调试工具，用于测试和调试各种 MCP 服务器实现。本项目是 Anthropic 官方 Inspector 工具的简化版本，全部代码由 Claude 生成。
+一个基于浏览器的 MCP (Model Context Protocol) 服务器调试工具，用于测试和调试各种 MCP 服务器实现。本项目可以看作 Anthropic 官方 [Inspector](https://github.com/modelcontextprotocol/inspector) 工具的简化版本，全部代码由 Claude 生成。
 
 ## 项目结构
 
