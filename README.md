@@ -121,6 +121,8 @@ http://localhost:8080
 "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\Users\Admin\AppData\Local\Google\Chrome\User Data\Default"
 ```
 
+![截图](./screenshots/Chrome_.png)
+
 这样chrome就会监听9222端口，方便playwright通过CDP endpoint接管浏览器，相应的，playwright的MCP config应该为：
 
 ```json
