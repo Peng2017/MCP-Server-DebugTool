@@ -113,6 +113,31 @@ Web 服务器将在端口 8080 启动。
 http://localhost:8080
 ```
 
+4. **其他**：
+
+如果是使用playwright接管chrome浏览器，可以用命令启动带参数的chrome，或者快捷方式修改为：
+
+```
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\Users\Admin\AppData\Local\Google\Chrome\User Data\Default"
+```
+
+这样chrome就会监听9222端口，方便playwright通过CDP endpoint接管浏览器，相应的，playwright的MCP config应该为：
+
+```json
+{
+  "command": "C:\\Windows\\System32\\cmd.exe",
+  "args": [
+    "/c",
+    "npx",
+    "-y",
+    "@playwright/mcp@latest",
+    "--cdp-endpoint=ws://localhost:9222/devtools/browser/xxxx-xxxx-xxxx-xxxx-xxxx"
+  ]
+}
+```
+
+其中 ```ws://localhost:9222/devtools/browser/xxxx-xxxx-xxxx-xxxx-xxxx``` 应该替换为你在浏览器```http://localhost:9222/json/version```地址页面上看到的真实值。
+
 ### 配置说明
 
 #### 端口配置
