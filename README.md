@@ -121,11 +121,11 @@ http://localhost:8080
 在浏览器界面的配置区域输入 MCP 服务器配置，例如：
 ```json
 {
-\"command\": \"npx\",
-\"args\": [
-\"-y\",
-\"@modelcontextprotocol/server-filesystem\",
-\"C:\\\\allowed\\\\directory\"
+"command": "npx",
+"args": [
+"-y",
+"@modelcontextprotocol/server-filesystem",
+"C:\\allowed\\directory"
 ]
 }
 ```
