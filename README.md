@@ -164,14 +164,14 @@ http://localhost:8080
 
 以下功能尚未完全实现：
 
-### [HTTP Transport](`src/transport/http-transport.js`)
+### [HTTP Transport](src/transport/http-transport.js)
 - 基础框架已实现，但缺少：
 - 连接管理和状态检查
 - 错误处理和重试机制
 - 与 MCP 协议的完整集成
 - 需要对应的 HTTP MCP 服务器支持
 
-### [WebSocket Transport](`src/transport/websocket-transport.js`)  
+### [WebSocket Transport](src/transport/websocket-transport.js)
 - 基础框架已实现，但缺少：
 - `connect()` 方法实现
 - 连接状态管理
