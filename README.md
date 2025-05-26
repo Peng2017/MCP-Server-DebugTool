@@ -9,8 +9,10 @@
 #### `index.html`
 主界面文件，包含：
 - 连接配置界面（传输类型选择、服务器配置）
-- 工具标签显示区域\n- 工具详情和参数输入区域  
-- 执行结果显示区域\n- 调试功能按钮
+- 工具标签显示区域
+- 工具详情和参数输入区域  
+- 执行结果显示区域
+- 调试功能按钮
 
 #### `src/app.js`
 应用程序主入口，包含主要方法：
@@ -56,7 +58,8 @@ WebSocket 传输实现 `WebSocketTransport`，主要方法：
 - `send(method, params)` - 通过 WebSocket 发送请求
 - `onMessage(event)` - 处理 WebSocket 消息
 
-#### `proxy-server.js`\nNode.js 代理服务器，主要功能：
+#### `proxy-server.js`
+Node.js 代理服务器，主要功能：
 - 启动 WebSocket 服务器监听浏览器连接
 - 通过 `spawn` 启动 MCP 进程
 - 在浏览器和 MCP 进程间转发 JSON-RPC 消息
