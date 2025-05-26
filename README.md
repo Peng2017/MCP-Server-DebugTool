@@ -115,7 +115,7 @@ http://localhost:8080
 
 4. **其他**：
 
-如果是使用playwright接管chrome浏览器，可以用命令启动带参数的chrome，或者快捷方式修改为：
+如果是使用playwright-mcp接管chrome浏览器，可以用命令启动带参数的chrome，或者快捷方式修改为：
 
 ```
 "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\Users\Admin\AppData\Local\Google\Chrome\User Data\Default"
@@ -139,6 +139,7 @@ http://localhost:8080
 ```
 
 其中 ```ws://localhost:9222/devtools/browser/xxxx-xxxx-xxxx-xxxx-xxxx``` 应该替换为你在浏览器```http://localhost:9222/json/version```地址页面上看到的真实值。
+![截图](./screenshots/webSocketDebuggerUrl.png)
 
 ### 配置说明
 
