@@ -125,9 +125,59 @@ http://localhost:8080
 "args": [
 "-y",
 "@modelcontextprotocol/server-filesystem",
-"C:\\allowed\\directory"
+"C:/allowed/directory"
 ]
 }
 ```
 
-### 使用说明\n\n1. **连接服务器**：\n   - 选择传输类型（目前推荐使用 \"stdio\"）\n   - 输入 MCP 服务器配置 JSON\n   - 点击 \"Connect\" 按钮\n\n2. **测试工具**：\n   - 连接成功后，工具标签会自动显示\n   - 点击工具标签查看详情和参数\n   - 填写参数后点击 \"执行工具\" 测试\n\n3. **调试功能**：\n   - `testConnection()` - 在控制台检查连接状态\n   - `showConnectionInfo()` - 显示详细连接信息\n   - `exportLogs()` - 导出调试日志\n   - `quickTest(toolName, params)` - 快速测试特定工具\n\n### Chrome 调试\n\n1. 按 F12 打开开发者工具\n2. 在 Console 标签中可以：\n   - 查看详细的连接和执行日志\n   - 使用调试函数（如 `testConnection()`）\n   - 检查全局变量 `mcpClient` 和 `toolDebugger`\n3. 在 Network 标签中可以查看 WebSocket 连接状态\n\n## TODO\n\n以下功能尚未完全实现：\n\n### HTTP Transport (`src/transport/http-transport.js`)\n- 基础框架已实现，但缺少：\n  - 连接管理和状态检查\n  - 错误处理和重试机制\n  - 与 MCP 协议的完整集成\n  - 需要对应的 HTTP MCP 服务器支持\n\n### WebSocket Transport (`src/transport/websocket-transport.js`)  \n- 基础框架已实现，但缺少：\n  - `connect()` 方法实现\n  - 连接状态管理\n  - 错误处理和重连逻辑\n  - 消息队列和超时处理\n  - 需要对应的 WebSocket MCP 服务器支持\n\n目前项目主要支持通过 stdio 传输与 MCP 服务器通信，这是最常见和稳定的连接方式。\n\n## 运行截图\n\n![项目运行截图](./screenshots/running-example.png)
+### 使用说明
+
+1. **连接服务器**：
+- 选择传输类型（目前推荐使用 \"stdio\"）
+- 输入 MCP 服务器配置 JSON
+- 点击 "Connect" 按钮
+
+2. **测试工具**：
+- 连接成功后，工具标签会自动显示
+- 点击工具标签查看详情和参数
+- 填写参数后点击 "执行工具" 测试
+
+3. **调试功能**：
+- `testConnection()` - 在控制台检查连接状态
+- `showConnectionInfo()` - 显示详细连接信息
+- `exportLogs()` - 导出调试日志
+- `quickTest(toolName, params)` - 快速测试特定工具
+
+### Chrome 调试
+
+1. 按 F12 打开开发者工具
+2. 在 Console 标签中可以：
+- 查看详细的连接和执行日志
+- 使用调试函数（如 `testConnection()`）
+- 检查全局变量 `mcpClient` 和 `toolDebugger`
+3. 在 Network 标签中可以查看 WebSocket 连接状态
+
+## TODO
+
+以下功能尚未完全实现：
+
+### HTTP Transport (`src/transport/http-transport.js`)
+- 基础框架已实现，但缺少：
+- 连接管理和状态检查
+- 错误处理和重试机制
+- 与 MCP 协议的完整集成
+- 需要对应的 HTTP MCP 服务器支持
+
+### WebSocket Transport (`src/transport/websocket-transport.js`)  
+- 基础框架已实现，但缺少：
+- `connect()` 方法实现
+- 连接状态管理
+- 错误处理和重连逻辑
+- 消息队列和超时处理
+- 需要对应的 WebSocket MCP 服务器支持
+
+目前项目主要支持通过 stdio 传输与 MCP 服务器通信，这是最常见和稳定的连接方式。
+
+## 运行截图
+
+![项目运行截图](./screenshots/running-example.png)
